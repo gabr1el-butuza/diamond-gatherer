@@ -1,0 +1,30 @@
+div {
+    border: 2px solid rgb(128, 126, 0);
+    margin: 3%;
+    padding-left: 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.fColor {
+    color: blue;
+}
+
+#myCanvas {
+    width: 400px;
+    height: 600px;
+    border: 1px solid black;
+    margin: 1%;
+}
+
+.picture {
+    margin: 3%;
+}
+
+img {
+    width: 600px;
+    height: 400px;
+    margin: 1%;
+}
