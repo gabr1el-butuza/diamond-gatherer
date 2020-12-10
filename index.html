@@ -10,6 +10,14 @@
     <img src="assets/map.png" class="display-none" id="map-image">
     <img src="assets/space-ranger-player.png" class="display-none" id="space-ranger" />
     <img src="assets/pink-lady-player.png" class="display-none" id="pink-lady" />
+    <img src="assets/player-disconnected.png" class="display-none" id="player-disconnected" />
+    <img src="assets/diamond.png" class="display-none" id="diamond" />
+    <img src="assets/pink-lady-player-with-diamond.png" class="display-none" id="pink-lady-with-diamond" />
+    <img src="assets/space-ranger-player-with-diamond.png" class="display-none" id="space-ranger-with-diamond" />
+    <img src="assets/space-ranger-won.png" class="display-none" id="space-ranger-won" />
+    <img src="assets/pink-lady-won.png" class="display-none" id="pink-lady-won" />
+    <img src="assets/space-ranger-bullet.png" class="display-none" id="space-ranger-bullet" />
+    <img src="assets/pink-lady-bullet.png" class="display-none" id="pink-lady-bullet" />
 
     <!-- MENU -->
     <div id="menu">
@@ -33,24 +41,29 @@
         </div>
         <input type="text" id="input-message" placeholder="Your message...">
         <button type="button" id="message-btn">Send</button>
-        <input type="color" id="msg-color" name="color"
-            value="#000000">
+        <input type="color" id="msg-color" name="color" value="#000000">
         <label for="color">Message Color</label>
-            <br>
-            <button type="button" id="leave-btn">Leave</button>
+        <br>
+        <button type="button" id="leave-btn">Leave</button>
+    </div>
+
+    <!-- GAME -->
+    <div id="game-container" class="display-none">
+        <canvas id="game-canvas" width="960" height="640"></canvas>
+        <button type="button" id="back-to-menu">Back to menu</button>
+        <p id="waiting-for-players">Waiting for second player! You cannot move.</p>
+        <div id="score-container" class="display-none">
+            <p>The number of diamonds left in the game are: <span id="nr-diamonds">0</span></p>
+            <p>Space Ranger has <span id="space-ranger-score">0</span> diamonds!</p>
+            <p>Pink Lady has <span id="pink-lady-score">0</span> diamonds!</p>
         </div>
-
-        <!-- GAME -->
-        <div id="game-container" class="display-none">
-            <canvas id="game-canvas" width="960" height="640"></canvas>
-            <button type="button" id="back-to-menu">Back to menu</button>
-        </div>
+    </div>
 
 
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/js/jquery-3.5.1.min.js"></script>
-        <script src="/js/inheritance.js" type="module"></script>
-        <script src="/js/main.js" type="module"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/inheritance.js" type="module"></script>
+    <script src="/js/main.js" type="module"></script>
 </body>
 
 </html>

@@ -8,20 +8,20 @@ chatServer.chatApp.use(chatServer.express.static(__dirname + '/public'));
 gameServer.gameApp.use(chatServer.express.static(__dirname + '/public'));
 
 // Starting server
-chatServer.httpChat.listen(chatPort, function() {
+chatServer.httpChat.listen(chatPort, function () {
     console.log(`[CHAT SERVER STARTED AT PORT ${chatPort}]`);
 });
 
-gameServer.httpGame.listen(gamePort, function() {
+gameServer.httpGame.listen(gamePort, function () {
     console.log(`[GAME SERVER STARTED AT PORT ${gamePort}]`);
 });
 
 // Server response
-chatServer.chatApp.get('/', function(request, response) {
+chatServer.chatApp.get('/', function (request, response) {
     response.sendFile(__dirname + '/index.html');
 });
 
-gameServer.gameApp.get('/', function(request, response) {
+gameServer.gameApp.get('/', function (request, response) {
     response.sendFile(__dirname + '/index.html');
 });
 

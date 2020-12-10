@@ -37,9 +37,9 @@ $("#leave-btn").click(() => {
 });
 
 socket.on("menu", () => {
-    console.log("You left chat!");
     $("#menu").removeClass("display-none");
     $("#chat-container").addClass("display-none");
+    $("#game-container").addClass("display-none");
 });
 
 socket.on("online-users", (onlineUsers) => {
@@ -50,7 +50,7 @@ socket.on("joined-left-user", (message) => {
     $("#chat-messages").append(message);
 });
 
-socket.on("menu", function() {
+socket.on("menu", function () {
     console.log("You left chat!");
     document.getElementById("menu").classList.remove("display-none");
     document.getElementById("chat-container").classList.add("display-none");
@@ -66,21 +66,33 @@ $("#create-game-button").click(() => {
     }
 });
 
-socket.on('game-loop', function(objectsForDraw) {
-    $("#menu").addClass("display-none");
-    $("#game-container").removeClass("display-none");
-    const img = $("#map-image")[0];
-    context.drawImage(img, 0, 0);
+socket.on('game-loop', function (data) {
+    document.getElementById('menu').classList.add('display-none');
+    document.getElementById('back-to-menu').classList.add('display-none');
+    document.getElementById('game-container').classList.remove('display-none');
+    context.drawImage(document.getElementById('map-image'), 0, 0);
 
-    objectsForDraw.forEach(function(objectForDraw) {
+    data.objectsForDraw.forEach(function (objectForDraw) {
         context.drawImage(
             document.getElementById(objectForDraw.imageId),
             ...objectForDraw.drawImageParameters
         )
     })
+
+    if (data.gameInProgress) {
+        document.getElementById('waiting-for-players').classList.add('display-none');
+        document.getElementById('score-container').classList.remove('display-none');
+        document.getElementById('space-ranger-score').innerHTML = data.score['space-ranger'];
+        document.getElementById('pink-lady-score').innerHTML = data.score['pink-lady'];
+        //Tema 5.2
+        document.getElementById('nr-diamonds').innerHTML = data.score["diamonds"];
+    } else {
+        document.getElementById('waiting-for-players').classList.remove('display-none');
+        document.getElementById('score-container').classList.add('display-none');
+    }
 });
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     switch (event.key) {
         case 'ArrowUp':
             socket.emit('start-moving-player', 'up');
@@ -100,10 +112,14 @@ document.addEventListener("keydown", function(event) {
                 socket.emit('start-moving-player', 'right');
                 break;
             }
+        case ' ': {
+            socket.emit('attack');
+            break;
+        }
     }
 })
 
-document.addEventListener('keyup', function(event) {
+document.addEventListener('keyup', function (event) {
     switch (event.key) {
         case 'ArrowUp':
         case 'ArrowDown':
@@ -116,7 +132,7 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-socket.on('add-game-to-list', function(options) {
+socket.on('add-game-to-list', function (options) {
     const gameElementContainer = document.createElement('div');
     gameElementContainer.classList.add('game-element');
     gameElementContainer.id = options.gameId;
@@ -126,7 +142,7 @@ socket.on('add-game-to-list', function(options) {
     const joinGameButton = document.createElement('button');
     joinGameButton.innerHTML = 'Join Game!';
 
-    joinGameButton.addEventListener('click', function() {
+    joinGameButton.addEventListener('click', function () {
         socket.emit('join-game', options.gameId);
     })
 
@@ -136,21 +152,22 @@ socket.on('add-game-to-list', function(options) {
     document.getElementById('game-list').appendChild(gameElementContainer);
 });
 
-socket.on('remove-game-from-list', function(gameId) {
+socket.on('remove-game-from-list', function (gameId) {
     document.getElementById(gameId).classList.add('display-none');
 });
 
-socket.on('game-over', function(reason) {
+socket.on("game-over", function (imageId, gameId) {
     // When one player leave the game or press "leave game" button
-    context.font = "bold 50px Arial";
-    context.fillStyle = "red";
-    context.textAlign = "center";
-    context.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+    // context.font = "bold 50px Arial";
+    // context.fillStyle = "red";
+    // context.textAlign = "center";
+    // context.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+    context.drawImage(document.getElementById(imageId), 0, 0);
+    document.getElementById("back-to-menu").classList.remove("display-none");
+    document.getElementById("back-to-menu").dataset.gameId = gameId;
 });
 
-// TEMA CURS 4
-document.getElementById("back-to-menu").addEventListener("click", function() {
-    window.location.reload();
-    // document.getElementById("game-container").classList.add("display-none");
-    // document.getElementById("menu").classList.remove("display-none");
+document.getElementById("back-to-menu").addEventListener("click", function () {
+    const gameId = document.getElementById("back-to-menu").dataset.gameId;
+    socket.emit("back-to-menu", gameId);
 })
