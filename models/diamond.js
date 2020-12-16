@@ -26,7 +26,9 @@ class Diamond {
         let xr, yr;
         xr = Math.floor(Math.random() * RIGHT_EDGE + 50);
         yr = Math.floor(Math.random() * DOWN_EDGE + 50);
-        if (xr > 195 && xr < 775 && yr > 191 && yr < 481) {
+        console.log(`xr: ${xr}, yr: ${yr}`);
+        //Corectare tema 
+        if (xr > 195 && xr < 775 || yr > 191 && yr < 481) {
             this.x = xr;
             this.y = yr;
             //console.log(`XR = ${xr}, YR = ${yr}`);

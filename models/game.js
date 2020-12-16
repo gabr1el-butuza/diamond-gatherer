@@ -9,7 +9,7 @@ class Game {
         this.gameInterval;
         this.diamonds = [];
         this.bullets = [];
-        this.totalDiamonds = 3;
+        this.totalDiamonds = 30;
         this.over = false;
         this.diamondsNr = this.totalDiamonds;
         this.start();
@@ -33,6 +33,10 @@ class Game {
         this.bullets.forEach((bullet, index) => {
             if (bullet.distance <= 0) {
                 delete this.bullets[index];
+                //Corectare tema
+                // console.log(this.players);
+                this.players[0].shoot = false;
+                this.players[1].shoot = false;
             } else {
                 bullet.update();
             }

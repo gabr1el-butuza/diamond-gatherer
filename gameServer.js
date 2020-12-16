@@ -130,24 +130,28 @@ function gameLoop(roomId) {
             game.players.forEach(function (player) {
                 objectsForDraw.push(player.forDraw());
             })
-            game.diamonds.forEach(function (diamond) {
-                objectsForDraw.push(diamond.forDraw());
-            })
+
             game.bullets.forEach(function (bullet) {
                 objectsForDraw.push(bullet.forDraw());
             })
+
             const data = {
                 objectsForDraw: objectsForDraw,
                 gameInProgress: game.players.length == 2
             }
 
             if (data.gameInProgress) {
+                //Corectare tema
+                game.diamonds.forEach(function (diamond) {
+                    objectsForDraw.push(diamond.forDraw());
+                })
                 data.score = {
                     'space-ranger': game.players[0].score,
                     'pink-lady': game.players[1].score,
                     "diamonds": game.diamondsNr
                 }
             }
+
             io.to(roomId).emit('game-loop', data);
         }
     }
